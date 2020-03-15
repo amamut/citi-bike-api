@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+    webapp:
+        links:
+            - "mongo"
+        depends_on:
+            - "mongo"
+        build:
+            context: .
+            dockerfile: webappDockerfile
+        ports:
+            - "3000:3000"
+        networks:
+            - my-network
+
+    scripts:
+        links:
+            - "mongo"
+        depends_on:
+            - "mongo"
+        build:
+            context: .
+            dockerfile: scriptsDockerfile
+        ports:
+            - "3000:3000"
+        networks:
+            - my-network
+
+    mongo:
+        image: mongo
+        ports:
+            - "27017:27017"
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        networks:
+            - my-network
+
+networks:
+    my-network:
+        name: "current-network"
+        driver: "bridge"
