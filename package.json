@@ -4,14 +4,13 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "prestart": "yarn build",
-        "start": "nodemon .",
+        "start": "node index.js",
         "start:dev": "export ENV=dev DEBUG=1 && node index.js",
         "build": "tsc",
         "watch": "tsc -w",
         "test": "export DB_COLLECTION=testLocations ENV=dev DEBUG=1 && jest --runInBand",
         "dev": "yarn build && concurrently --kill-others --prefix \"[{name}]\" --names \"TSC,GQL\" \"yarn watch\" \"nodemon --inspect --exec 'yarn start:dev'\"",
-        "ingest": "node dist/scripts/ingest-locations.js"
+        "ingest": "node dist/src/scripts/ingest-locations.js"
     },
     "author": "Alex Mamut <amamut@gmail.com>",
     "license": "MIT",
@@ -26,9 +25,11 @@
         "express": "^4.17.1",
         "mongodb": "^3.3.4",
         "morgan": "^1.9.1",
+        "nodemon": "^1.19.4",
         "redis": "^3.0.2",
         "source-map-support": "^0.5.16",
         "tslib": "^1.10.0",
+        "typescript": "^3.7.2",
         "winston": "^3.2.1"
     },
     "devDependencies": {
@@ -39,10 +40,8 @@
         "@types/supertest": "^2.0.8",
         "concurrently": "^5.0.0",
         "jest": "^25.1.0",
-        "nodemon": "^1.19.4",
         "supertest": "^4.0.2",
         "ts-jest": "^25.2.1",
-        "tslint": "^5.20.1",
-        "typescript": "^3.7.2"
+        "tslint": "^5.20.1"
     }
 }

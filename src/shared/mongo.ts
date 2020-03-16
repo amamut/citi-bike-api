@@ -39,18 +39,15 @@ export async function mongoConnect() {
     locationCollection = client.db("CitiBike").collection<CitiBikeLocationDB>(DB_COLLECTION);
 }
 
-function collectionWrapper(name: string) {
+function collectionWrapper() {
     if (!clients[DB_URI]) {
         throw new Error("not connected to DB");
-    }
-    if (name === "locations") {
-        throw new Error("name can't be same as live collection");
     }
     return clients[DB_URI];
 }
 
 export async function createTmpCollection(name: string) {
-    const client = await collectionWrapper(name);
+    const client = await collectionWrapper();
     if ((await (await client.db("CitiBike").listCollections()).toArray()).includes(name)) {
         client.db("CitiBike").dropCollection(name);
     }
@@ -58,9 +55,10 @@ export async function createTmpCollection(name: string) {
 }
 
 export async function swapCollectionNames(name: string) {
-    const client = await collectionWrapper(name);
-    if ((await (await client.db("CitiBike").listCollections()).toArray()).includes("locations")) {
-        client.db("CitiBike").dropCollection("locations");
+    const client = await collectionWrapper();
+    if ((await (await client.db("CitiBike").listCollections()).toArray()).find(c => c.name === "locations")) {
+        logger.info("Destroying locations db to prepare for swap");
+        await client.db("CitiBike").dropCollection("locations");
     }
-    client.db("CitiBike").renameCollection(name, "locations");
+    await client.db("CitiBike").renameCollection(name, "locations");
 }
