@@ -9,7 +9,7 @@
 Default cache ttl is 10 seconds.
 In Production Mode: Cron job ingests stations every 2 minutes and replaces collection.
 
-## Running prod version
+## Running prod version (with Redis Caching)
 
 1. Install docker engine locally: https://docs.docker.com/install/
 2. `docker-compose up`
