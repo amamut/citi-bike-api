@@ -3,6 +3,7 @@
 ## Setup
 
 Install docker engine locally: https://docs.docker.com/install/
+Install yarn: https://classic.yarnpkg.com/en/docs/install/
 
 ## Running dev version
 
