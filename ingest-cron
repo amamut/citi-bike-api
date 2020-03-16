@@ -1,0 +1,1 @@
+0/5 * * * * cd /application && yarn ingest >> /var/log/cron.log 2>&1

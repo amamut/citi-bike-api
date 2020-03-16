@@ -1,10 +1,12 @@
-import { logger, DEBUG, ENV, LOG_LEVEL, PORT, DB_COLLECTION } from "./config";
+import { logger, DEBUG, ENV, LOG_LEVEL, PORT, DB_COLLECTION, CACHE, CACHE_TTL } from "./config";
 import { DB_URI, mongoConnect, mongoDisconnect } from "../shared/mongo";
 import express from "express";
 import { errorHandler } from "./middleware/errors";
 import { v1api } from "./api/v1";
 import { Server } from "http";
 import { EventEmitter } from "events";
+import { redisConnect } from "../shared/redis";
+import { cacheHandler } from "./middleware/cache";
 
 // tslint:disable-next-line:no-var-requires
 require("source-map-support").install();
@@ -13,6 +15,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
 export const app = express();
+app.use(cacheHandler);
 export const startEmitter = new EventEmitter();
 export let server = new Server();
 
@@ -22,8 +25,11 @@ const main = async () => {
     logger.info(`LOG_LEVEL:                 ${LOG_LEVEL}`);
     logger.info(`DB_URI:                    ${DB_URI}`);
     logger.info(`DB_COLLECTION:             ${DB_COLLECTION}`);
+    logger.info(`CACHE:                     ${CACHE}`);
+    logger.info(`CACHE_TTL:                 ${CACHE_TTL}`);
 
     await mongoConnect();
+    await redisConnect();
 
     app.use(morgan("tiny"));
 

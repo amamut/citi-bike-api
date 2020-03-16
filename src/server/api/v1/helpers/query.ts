@@ -10,6 +10,7 @@ import {
 } from "../../../../shared/collection-types";
 import { escapeRegex } from "./regex";
 import { BadRequest } from "../../../middleware/errors";
+import { cacheSet } from "../../../../shared/redis";
 
 export const DEFAULT_LIMIT = 20;
 
@@ -64,6 +65,7 @@ export async function stationWrapper(req: Request, res: Response, cursor: Cursor
             limit: Number(req.query.limit) || DEFAULT_LIMIT,
         }),
     };
+    await cacheSet(req.originalUrl, data, 200);
     res.status(200).send(data);
 }
 

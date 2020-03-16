@@ -4,26 +4,14 @@ services:
     webapp:
         links:
             - "mongo"
+            - "redis"
         depends_on:
             - "mongo"
+            - "redis"
         build:
             context: .
-            dockerfile: webappDockerfile
         ports:
-            - "3000:3000"
-        networks:
-            - my-network
-
-    scripts:
-        links:
-            - "mongo"
-        depends_on:
-            - "mongo"
-        build:
-            context: .
-            dockerfile: scriptsDockerfile
-        ports:
-            - "3000:3000"
+            - "4000:4000"
         networks:
             - my-network
 
@@ -35,6 +23,15 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
+        networks:
+            - my-network
+
+    redis:
+        image: redis
+        restart: always
+        build:
+            context: .
+            dockerfile: Dockerfile-redis
         networks:
             - my-network
 

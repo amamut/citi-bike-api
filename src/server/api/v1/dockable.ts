@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { getStationById } from "./helpers/query";
 import { BadRequest, NotFound, createError } from "../../middleware/errors";
 import { DockableResponse } from "../../../shared/collection-types";
+import { cacheSet } from "../../../shared/redis";
 
 function dockableResponse(isDockable: boolean) {
     switch (isDockable) {
@@ -32,6 +33,7 @@ export class Dockable {
                 stationId: Number(req.params.stationid),
                 bikesToReturn,
             };
+            await cacheSet(req.url, response, 200);
             res.status(200).send(response);
         } catch (err) {
             next(createError(err, req));
