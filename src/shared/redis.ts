@@ -1,5 +1,5 @@
 import { RedisClient } from "redis";
-import { REDIS_HOST, logger, CACHE, CACHE_TTL } from "../server/config";
+import { REDIS_HOST, logger, USE_CACHE, CACHE_TTL } from "../server/config";
 
 export const cacheableStatusCodes: { [key: number]: boolean } = {
     200: true,
@@ -10,7 +10,7 @@ export const cacheableStatusCodes: { [key: number]: boolean } = {
 export let redisClient: RedisClient;
 
 export function redisConnect() {
-    if (CACHE === true) {
+    if (USE_CACHE === true) {
         redisClient = new RedisClient({
             host: REDIS_HOST,
             port: 6379,
@@ -20,7 +20,7 @@ export function redisConnect() {
 }
 
 export function cacheSet(key: string, body: any, statusCode: number) {
-    if (CACHE === true) {
+    if (USE_CACHE === true) {
         try {
             if (cacheableStatusCodes[statusCode]) {
                 redisClient.hmset(
@@ -40,7 +40,7 @@ export function cacheSet(key: string, body: any, statusCode: number) {
 
 export function cacheGet(key: string): Promise<{ body: object; status: string }> {
     return new Promise((resolve, reject) => {
-        if (CACHE === true) {
+        if (USE_CACHE === true) {
             redisClient.hmget(Buffer.from(key).toString("base64"), "body", "status", (err, fields) => {
                 if (!err && fields[0] && fields[1]) {
                     resolve({ body: JSON.parse(fields[0]), status: fields[1] });

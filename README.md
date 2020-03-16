@@ -12,7 +12,8 @@ In Production Mode: Cron job ingests stations every 2 minutes and replaces colle
 
 ## Running prod version
 
-1. `docker-compose up`
+1. Install docker engine locally: https://docs.docker.com/install/
+2. `docker-compose up`
 
 ## Ingestion
 
@@ -21,4 +22,5 @@ Place on cron to keep up to date.
 
 ## Testing
 
-1. `yarn test`
+1. Mongo running locally: `docker run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example mongo`
+2. `yarn test`

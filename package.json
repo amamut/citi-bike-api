@@ -4,11 +4,11 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
-        "start:dev": "export ENV=dev DEBUG=1 && node index.js",
+        "start": "USE_CACHE=1 node index.js",
+        "start:dev": "USE_CACHE=0 ENV=dev DEBUG=1 node index.js",
         "build": "tsc",
         "watch": "tsc -w",
-        "test": "export DB_COLLECTION=testLocations ENV=dev DEBUG=1 && jest --runInBand",
+        "test": "USE_CACHE=0 DB_COLLECTION=testLocations ENV=dev DEBUG=1 jest --runInBand",
         "dev": "yarn build && concurrently --kill-others --prefix \"[{name}]\" --names \"TSC,GQL\" \"yarn watch\" \"nodemon --inspect --exec 'yarn start:dev'\"",
         "ingest": "node dist/src/scripts/ingest-locations.js"
     },
