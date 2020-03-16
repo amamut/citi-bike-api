@@ -16,7 +16,8 @@ In Production Mode: Cron job ingests stations every 2 minutes and replaces colle
 
 ## Ingestion
 
-To populate the db locally when developing use command `yarn ingest` to replace collection with latest data. Places on cron to keep up to date.
+To populate the db locally when developing use command:`yarn ingest`.
+Place on cron to keep up to date.
 
 ## Testing
 
