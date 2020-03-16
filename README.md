@@ -1,5 +1,9 @@
 # city-bike-api
 
+## Setup
+
+Install docker engine locally: https://docs.docker.com/install/
+
 ## Running dev version
 
 1. `docker run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example mongo`
@@ -8,8 +12,7 @@
 
 ## Running prod version (with Redis Caching)
 
-1. Install docker engine locally: https://docs.docker.com/install/
-2. `docker-compose up`
+1. `docker-compose up`
 
 Default cache ttl is 10 seconds.
 In Production Mode: Cron job ingests stations every 2 minutes and replaces collection.
