@@ -22,7 +22,7 @@
         "axios": "^0.19.2",
         "body-parser": "^1.19.0",
         "bodyparser-json-error": "^1.0.0",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "mongodb": "^3.3.4",
         "morgan": "^1.9.1",
         "nodemon": "^1.19.4",
